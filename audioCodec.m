@@ -8,8 +8,8 @@ function [out] = audioCodec ()
   for i = 1:n
     for j = 1:2*n
       M(i, j) = cos((i-1 + 1/2) + (j-1 + 1/2 + n/2) * pi/n);
-    endfor
-  endfor
+    end
+  end
   M = sqrt(2/n) * M;
   N = M';             % Inverse MDCT
   Fs = 8172; f = 7;   % Fs = sampling rate
@@ -26,8 +26,8 @@ function [out] = audioCodec ()
       w2 = w(n+1:2*n, k-1);
       w3 = w(1:n, k);
       out = [out; (w2 + w3) /2];  %collect the reconstructed signal
-    endif
-  endfor
+    end
+  end
 pause(1);
 sound(out, Fs);  
-endfunction
+end
