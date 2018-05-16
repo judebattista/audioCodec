@@ -1,8 +1,12 @@
-function [out, Fs] =  audioCodecFromFile(filename, FS, a, b)
+function [out, Fs] =  fileCompressor(filename, FS, a, b)
+%just a quick mockup of a file compression system. Testing primarily to 
+%see whether resulting wav file is actually smaller when decompressed.
+%note: the 'out' vector actually creates a larger file than the original,
+%even with less time recorded, irregardless of choice of b.
   [x, Fs] = audioread(filename, [a*FS, b*FS]);
   n = 32;             % length of window
   nb = length(x) / n - 1;           % number of windows, > 1
-  b = 8; L = 5;       % Quantization information
+  b = 24; L = 5;       % Quantization information
   q = 2*L/(2^b - 1);  % b bits on the interval [-L, L]
   for i = 1:n
     for j = 1:2*n
@@ -31,4 +35,5 @@ function [out, Fs] =  audioCodecFromFile(filename, FS, a, b)
 pause((b-a) + 1);
 debug = "Playing decomp"
 sound(out, Fs);  
+audiowrite('testCompress.wav', out, Fs); 
 end
