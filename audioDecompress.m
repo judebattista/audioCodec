@@ -35,5 +35,6 @@ function [out] =  audioDecompress(filename, sparseRowCount, rowCount, colCount, 
             out = [out; (w2 + w3) /2];  % collect the reconstructed signal
         end
     end
+    audiowrite('resconstructed.wav', out, Fs);
     %sound(out, Fs);  
 end
