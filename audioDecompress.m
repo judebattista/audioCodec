@@ -8,15 +8,12 @@ function [out] =  audioDecompress(filename, sparseRowCount, rowCount, colCount, 
     n = rowCount;
     nb = colCount;
     A = zeros(n, nb);
-    debug = "Max Raw row val"
-    debug = max(Raw(:, 1))
     for foo = 1:sparseRowCount
         rowNdx = Raw(foo, 1);
         colNdx = Raw(foo, 2);
         value = Raw(foo, 3);
         A(rowNdx, colNdx) = value;
     end
-    debug = "Size of A:"
     size(A)
     M = ones(n, 2*n);       % initialize our DCT matrix
     for i = 1:n             % Construct our DCT matrix
@@ -28,8 +25,6 @@ function [out] =  audioDecompress(filename, sparseRowCount, rowCount, colCount, 
     size(N)
     out = [];
     y1 = A(:, 1);       
-    debug = "Size of y1:"
-    size(y1)
     for k=1:nb              % loop over each window
         y1 = A(:, k);       % grab the kth column of A
         y2 = y1*q;          % dequantize it
@@ -40,6 +35,5 @@ function [out] =  audioDecompress(filename, sparseRowCount, rowCount, colCount, 
             out = [out; (w2 + w3) /2];  % collect the reconstructed signal
         end
     end
-    debug = "Playing decomp"
-    sound(out, Fs);  
+    %sound(out, Fs);  
 end
