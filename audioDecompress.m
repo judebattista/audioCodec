@@ -14,7 +14,6 @@ function [out] =  audioDecompress(filename, sparseRowCount, rowCount, colCount, 
         value = Raw(foo, 3);
         A(rowNdx, colNdx) = value;
     end
-    size(A)
     M = ones(n, 2*n);       % initialize our DCT matrix
     for i = 1:n             % Construct our DCT matrix
         for j = 1:2*n
@@ -22,13 +21,12 @@ function [out] =  audioDecompress(filename, sparseRowCount, rowCount, colCount, 
         end
     end
     N = M';                 % since M is orthogonal, its inverse is its transpose
-    size(N)
     out = [];
     y1 = A(:, 1);       
     for k=1:nb              % loop over each window
         y1 = A(:, k);       % grab the kth column of A
         y2 = y1*q;          % dequantize it
-        w(:, k) = N*y2;     % invert the MDCT
+        w(:, k) = N*y2;     % invert the MDCT    
         if (k>1)            % if we're not on the first step
             w2 = w(n+1:2*n, k-1);
             w3 = w(1:n, k);
